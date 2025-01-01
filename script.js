@@ -13,38 +13,67 @@ const button = document.createElement("button");
 button.textContent = "# of Squares";
 document.body.prepend(button);
 
-let input = 256;
+let input = 257;
 button.addEventListener('click', () => {
     input = prompt("How many squares do you want per side?");
     input = parseInt(input);
     while (container.firstChild) {
         container.removeChild(container.firstChild);
       }
-    let counter = 0;
-    let gridNumber = input * input;
+    let counter = 1;
+    let gridNumber = (input * input) + 1;
+    /*
+      x = 1
+      while x < input
+        (input * x) + 1 grid item should be 100% width 
+        with zero height and border
+
+
+      if counter is divisible by input then the next one
+      should push the div to the next row
+    */
     while(counter < gridNumber) {
         const grid = document.createElement("div");
-        grid.classList.add("grid");
-        container.appendChild(grid);
-        counter++;   
+        if(counter % input === 1 && counter !== 1) {
+            const emptyRow = document.createElement("div");
+            emptyRow.classList.add("break");
+            container.appendChild(emptyRow);
+            grid.classList.add("grid");
+            container.appendChild(grid);
+            console.log(counter);
+        }
+        else {
+            grid.classList.add("grid");
+            container.appendChild(grid);   
+        }
+        counter++;
     }
     hover();
 });
 
-let counter = 0;
-
+let counter = 1;
+let originalRowCount = 16;
 while(counter < input) {
     const grid = document.createElement("div");
-    grid.classList.add("grid");
-    container.appendChild(grid);
-    counter++;   
+    if(counter % originalRowCount === 1 && counter !== 1) {
+        const emptyRow = document.createElement("div");
+        emptyRow.classList.add("break");
+        container.appendChild(emptyRow);
+        grid.classList.add("grid");
+        container.appendChild(grid);
+        console.log(counter);
+    }
+    else {
+        grid.classList.add("grid");
+        container.appendChild(grid);   
+    }
+    counter++;
 }
 
 hover();
 
 function hover() {
     const mouseOver = document.querySelectorAll("div.grid");
-    console.log(mouseOver);
     
     mouseOver.forEach((gridItem) => {
         gridItem.addEventListener('mouseover', (e) => {
